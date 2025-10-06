@@ -28,4 +28,4 @@ def return_customer_orders_page(request):
 
 
 def return_update_customers_page(request):
-    return render(request, )
+    return render(request, "accounts/update_customer.html")
