@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import *
-from .forms import OrderForm
+from .forms import OrderForm, CreateUser
 # Create your views here.
 
 def return_home_page(request):
@@ -29,3 +29,16 @@ def return_customer_orders_page(request):
 
 def return_update_customers_page(request):
     return render(request, "accounts/update_customer.html")
+
+def return_login_page(request):
+    form = CreateUser()
+    if request.method == 'POST':
+        form = CreateUser(request.POST)
+        if form.is_valid():
+            form.save()
+    
+    context = {"form" : form}
+    return render(request, "accounts/login.html", context)
+
+def return_signup_page(request):
+    return render(request, "accounts/signup.html")
