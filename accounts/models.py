@@ -13,6 +13,7 @@ class Product(models.Model):
     title = models.CharField(max_length=255, null=False)
     price = models.FloatField(null=True)
     description = models.CharField(max_length=255, null=True)
+    product_url = models.CharField(max_length=255, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=False)
     tags = models.ManyToManyField(Tag)
 

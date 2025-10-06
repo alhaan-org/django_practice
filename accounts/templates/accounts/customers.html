@@ -1,32 +1,42 @@
 {% extends "accounts/main.html" %}
-
+{% load static %}
 {% block content %}
 
 <div class="container">
     <main>
+        <h1 class="customer-heading">Our Customers Lists</h1>
         <div class="container-fluid">
-            <h1>Customers Lists</h1>
-            <table class="table">
+            <table class="table table-hover table-responsive">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Phone Number</th>
                         <th>Status</th>
                         <th>Products</th>
+                        <th>View Customer</th>
                     </tr>
                 </thead>
                
                 <tbody>
+                    {% for cust in customer %}
                     <tr>
-                        <td>{{customer.name}}</td>
-                        <td>{{customer.phone_number}}</td>
-                        <td>{{customer.status}}</td>
-                        <td>{{customer.products.title}}</td>
+                        <td>{{cust.name}}</td>
+                        <td>{{cust.phone_number}}</td>
+                        {% if cust.status == "Paid" %}
+                        <td class="text-success fw-bolder">{{cust.status}}</td>
+                        {% elif cust.status == "Not Paid" %}
+                        <td class="text-danger fw-bolder">{{cust.status}}</td>
+                        {% else %}
+                        <td class="text-primary fw-bolder">{{cust.status}}</td>
+                        {% endif %}
+                        <td>{{cust.products.title}}</td>
+                        <td><a href="#">View</a></td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
+            <a class="btn btn-dark" href="{% url 'create_customers' %}">Add Customers</a>
         </div>
-
     </main>
 </div>
 
