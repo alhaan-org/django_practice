@@ -3,22 +3,26 @@ from .models import *
 from .forms import OrderForm, CreateUser
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required(login_url="login")
 def return_home_page(request):
     return render(request, "accounts/main.html")
 
+@login_required(login_url="login")
 def return_products_page(request):
     products = Product.objects.all()
     product_context = {"products": products}
     return render(request, "accounts/products.html", product_context)
 
+@login_required(login_url="login")
 def return_customers_page(request):
     customer = Customer.objects.all()
     context = {"customer": customer}
     return render(request, "accounts/customers.html", context)
 
+@login_required(login_url="login")
 def return_customer_orders_page(request):
     form = OrderForm()
     if request.method == "POST":
@@ -29,7 +33,7 @@ def return_customer_orders_page(request):
     context = {"form" : form}
     return render(request, "accounts/customer_form.html", context)
 
-
+@login_required(login_url="login")
 def return_update_customers_page(request):
     return render(request, "accounts/update_customer.html")
 
