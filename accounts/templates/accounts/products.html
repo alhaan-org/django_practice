@@ -3,15 +3,25 @@
 {% block content %}
 
 <main>
-    <div class="container-fluid p-4 d-flex align-items-center justify-content-center flex-column">
+    <div class="container-fluid p-4 d-flex align-items-center justify-content-center flex-column w-100">
         <h1 class="product-heading">Checkout our Products on Sale</h1>
         <p class="product-paragraph">We offer prices in affordable amount and quantity</p>
-        <div class="p-4">
-            <span id="product-search-span"><input id="product-search" type="text" placeholder="Search your Products"><i class="bi bi-search"></i></span>
+        <div class="p-4 d-flex flex-row">
+            <form action="{% url 'products' %}" method="get">
+
+                <div class="d-flex flex-row gap-3 align-items-center justify-content-center">
+                    <span id="product-search-span">
+                        <input id="product-search" name="query" type="text" placeholder="Search your Products"><i
+                            class="bi bi-search"></i>
+                    </span>
+                    <div><input type="submit" value="Search" class="btn btn-dark p-2"></div>
+                    <div><a href="{% url 'products' %}" class="btn btn-light p-2"><i class="bi bi-arrow-clockwise"></i></a></div>             
+                 </div>
+            </form>
         </div>
         <div class="row">
             {% for product in products %}
-            <div class="col col-md-6 col-sm-12">
+            <div class="col">
                 <div class="card mb-3 w-100" id="product-card-height">
                     <img src="{{product.product_url}}" class="card-img-top" id="card-img-enhanced" alt="...">
                     <div class="card-body">
@@ -19,7 +29,18 @@
                         <p class="card-text">{{product.description}}</p>
                         <p class="card-text"><small class="text-body-secondary">{{product.date_created}}</small></p>
                         <button class="btn btn-dark btn-lg">Checkout ${{product.price}}</button>
-                        <div><i class="bi bi-tags"></i> <span class="badge text-bg-success mt-3">Sale</span></div>
+
+                        <div><i class="bi bi-tags"></i>
+                            {% for tag in product.tags.all %}
+                            {% if tag.title == "Summer" %}
+                            <span class="badge text-bg-warning mt-3">{{tag.title}}</span>
+                            {% elif tag.title == "Winter" %}
+                            <span class="badge text-bg-primary mt-3">{{tag.title}}</span>
+                            {% elif tag.title == "Sports" %}
+                            <span class="badge text-bg-success mt-3">{{tag.title}}</span>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
