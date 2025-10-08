@@ -12,7 +12,12 @@ def return_home_page(request):
 
 @login_required(login_url="login")
 def return_products_page(request):
-    products = Product.objects.all()
+    query = request.GET.get('query',None)
+    if query:
+        products = Product.objects.filter(title__icontains=query)
+    else:
+        products = Product.objects.all()
+    
     product_context = {"products": products}
     return render(request, "accounts/products.html", product_context)
 
@@ -46,9 +51,15 @@ def return_login_page(request):
         if user is not None:
             login(request, user)
             return redirect("home")
+        else:
+            messages.info(request, "Authentication Failed, Wrong Password and Email")
     
     context = {}
     return render(request, "accounts/login.html", context)
+
+def return_logout(request):
+    logout(request)
+    return redirect("login")
 
 def return_signup_page(request):
     form = CreateUser()
