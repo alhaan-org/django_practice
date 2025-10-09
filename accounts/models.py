@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Tag(models.Model):
 
@@ -28,6 +28,7 @@ class Customer(models.Model):
     )
 
     name = models.CharField(max_length=255, null=False)
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=15, null=False)
     status = models.CharField(max_length=255, null=False, choices=STATUS)
     date_created = models.DateTimeField(auto_now_add=True, null=False)
